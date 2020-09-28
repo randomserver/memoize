@@ -1,8 +1,8 @@
 name: Publish Package
 
 on:
-  push:
-    branches: [ master ]
+  release
+    types: [published, created, edited]
 jobs:
   build:
     runs-on: ubuntu-latest
