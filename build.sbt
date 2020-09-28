@@ -2,14 +2,14 @@ lazy val supportedVersions = List("2.13.3", "2.12.12")
 enablePlugins(GitVersioning)
 
 def publishSettings(): Seq[Def.Setting[_]] = (for {
-  nexus <- sys.env.get("MAVEN_REPO_URL")
+  repo     <- sys.env.get("MAVEN_REPO_URL")
   username <- sys.env.get("MAVEN_REPO_USER")
   password <- sys.env.get("MAVEN_REPO_PASS")
-  host = url(nexus).getHost
+  host = url(repo).getHost
 } yield Seq(
-  credentials += Credentials("Sonatype Nexus Repository Manager", host, username, password),
+  credentials += Credentials("GitHub Package Registry", host, username, password),
   publishTo := {
-    Some("Sonatype Nexus Repository Manager" at nexus)
+    Some("GitHub Package Registry" at repo)
   }
 )).getOrElse(Seq.empty)
 
