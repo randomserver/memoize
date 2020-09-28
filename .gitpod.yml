@@ -4,3 +4,8 @@ image:
 tasks:
   - init: sbt compile
     command: sbt compile
+
+vscode:
+  extensions:
+    - scala-lang.scala@0.4.3:4toR7IuVtVqB/cqkVaTgZg==
+    - scalameta.metals@1.9.4:PxYRuGll1yFJGq/sSSA2Fg==
