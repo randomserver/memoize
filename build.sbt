@@ -1,12 +1,27 @@
 lazy val supportedVersions = List("2.13.3", "2.12.12")
+enablePlugins(GitVersioning)
+
+def publishSettings(): Seq[Def.Setting[_]] = (for {
+  nexus <- sys.env.get("MAVEN_REPO_URL")
+  username <- sys.env.get("MAVEN_REPO_USER")
+  password <- sys.env.get("MAVEN_REPO_PASS")
+  host = url(nexus).getHost
+} yield Seq(
+  credentials += Credentials("Sonatype Nexus Repository Manager", host, username, password),
+  publishTo := {
+    Some("Sonatype Nexus Repository Manager" at nexus)
+  }
+)).getOrElse(Seq.empty)
 
 ThisBuild / name := "memoize"
-ThisBuild / version := "0.1"
 ThisBuild / organization := "se.randomserver"
 ThisBuild / organizationHomepage := Some(url("https://github.com/randomserver"))
 ThisBuild / organizationName := "randomserver.se"
 ThisBuild / scalaVersion := "2.13.3"
 ThisBuild / crossScalaVersions := supportedVersions
+
+publishSettings()
+git.useGitDescribe := true
 
 Compile / sourceGenerators += task {
   codegen.run((Compile / sourceManaged).value / "se/randomserver/memoize")
@@ -28,4 +43,3 @@ libraryDependencies ++= {
 } ++ Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
 )
-
