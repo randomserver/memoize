@@ -1,0 +1,21 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Publish
+      run: sbt +publish
+      env:
+        MAVEN_REPO_URL: "https://maven.pkg.github.com/${{ github.repository }}"
+        MAVEN_REPO_USER: "${{ github.repository_owner }}"
+        MAVEN_REPO_PASS: ${{ secrets.GITHUB_TOKEN}}
