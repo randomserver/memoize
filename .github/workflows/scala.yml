@@ -22,7 +22,7 @@ jobs:
     - name: Publish
       run: sbt +publish
       env:
-        MAVEN_REPO_URL: "https://maven.pkg.github.com/${{ github.repository_owner }}"
+        MAVEN_REPO_URL: "https://maven.pkg.github.com/${{ github.repository }}"
         MAVEN_REPO_USER: "${{ github.repository_owner }}"
         MAVEN_REPO_PASS: ${{ secrets.GITHUB_TOKEN}}
           
